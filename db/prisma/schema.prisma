@@ -1,0 +1,39 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Koan {
+  id      String    @id @default(uuid())
+  text    String    // Stores the Koan text with \n\n
+  source  String
+  author  String
+  comments Comment[] // A Koan can have many comments
+}
+
+model Comment {
+  id        String    @id @default(uuid())
+  text      String
+  date      DateTime  @default(now())
+  author    String    // The userId
+  votes     Json      // Stored as a simple JSONB object: { up: 10, down: 2 }
+
+  // 1. Link back to the Koan
+  koanId    String
+  koan      Koan      @relation(fields: [koanId], references: [id])
+
+  // 2. Self-Referencing for Replies (The Threading Logic)
+  parentId  String?   // ID of the comment this one is replying to (null for top-level)
+  parent    Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  replies   Comment[] @relation("CommentReplies")
+}

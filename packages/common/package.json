@@ -1,0 +1,12 @@
+{
+  "name": "@koan/common",
+  "version": "1.0.0",
+  "description": "Shared TypeScript types for Koan API",
+  "main": "types.ts",
+  "types": "types.ts",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
+
