@@ -1,0 +1,22 @@
+{
+  "name": "@koan/services",
+  "version": "1.0.0",
+  "description": "Service layer for Koan API - handles all database operations",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "verify:imports": "tsx scripts/verify-imports.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.6.5",
+  "dependencies": {
+    "@koan/common": "workspace:*",
+    "db": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "tsx": "^4.19.2"
+  }
+}

@@ -2,19 +2,13 @@ import { config } from "dotenv";
 import { resolve } from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import { prisma } from "../client";
 
-// Load .env from project root (two levels up from this file: db/prisma/seed.ts -> db -> root)
+// Explicitly load root .env to ensure consistent behavior regardless of CWD
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+// Should be ablet to use env() later on https://github.com/prisma/prisma/issues/12535// Should be ablet to use env() later on https://github.com/prisma/prisma/issues/12535
 config({ path: resolve(__dirname, "../../.env") });
-
-import { env } from "prisma/config";
-import { PrismaClient } from "../generated/prisma/client";
-import { PrismaNeon } from "@prisma/adapter-neon";
-
-const connectionString = env("DATABASE_URL");
-const adapter = new PrismaNeon({ connectionString });
-const prisma = new PrismaClient({ adapter });
 
 async function main() {
   console.log("🌱 Starting seed...");

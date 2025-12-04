@@ -4,13 +4,13 @@ import { config } from "dotenv";
 import { resolve } from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import { defineConfig } from "prisma/config";
 
-// Load .env from project root (two levels up from this file)
+// Explicitly load root .env to ensure consistent behavior regardless of CWD
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-config({ path: resolve(__dirname, "../../.env") });
 
-import { defineConfig, env } from "prisma/config";
+config({ path: resolve(__dirname, "../../.env") });
 
 export default defineConfig({
   schema: "prisma/schema.prisma",
@@ -18,6 +18,7 @@ export default defineConfig({
     path: "prisma/migrations",
   },
   datasource: {
-    url: env("DATABASE_URL"),
+    // Should be ablet to use env() later on https://github.com/prisma/prisma/issues/12535
+    url: process.env.DATABASE_URL!,
   },
 });
