@@ -13,6 +13,13 @@ config({ path: resolve(__dirname, "../../.env") });
 async function main() {
   console.log("🌱 Starting seed...");
 
+  // Clear existing seed data to ensure idempotency
+  // This allows the seed script to be run multiple times safely
+  console.log("🧹 Clearing existing data...");
+  await prisma.comment.deleteMany({});
+  await prisma.koan.deleteMany({});
+  console.log("✅ Existing data cleared\n");
+
   // Sample Koans
   const koan1 = await prisma.koan.create({
     data: {
